@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="flex">
+    {% include 'users/tech_sidebar.html' %}
+
+    <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded shadow">
+    <h2 class="text-xl font-semibold mb-4 text-red-600">Confirm Delete</h2>
+    <p class="mb-6">Are you sure you want to delete the device: <strong>{{ device.serial_number }}</strong>?</p>
+
+    <form method="post" class="space-x-4">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Yes, Delete</button>
+        <a href="{% url 'technician_all_devices' %}" class="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
+    </form>
+</div>
+{% endblock %}

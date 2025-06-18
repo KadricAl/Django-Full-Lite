@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex">
+    {% include 'users/tech_sidebar.html' %}
+
+      <div class="ml-64 w-full p-8 bg-zinc-50 min-h-screen">
+    <h1 class="text-2xl font-bold mb-6 text-indigo-700">Technician Dashboard</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="bg-white p-6 rounded-xl shadow text-center border">
+        <h2 class="text-sm text-zinc-500 mb-2">Clients</h2>
+        <p class="text-3xl font-semibold text-indigo-700">{{ num_clients }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow text-center border">
+        <h2 class="text-sm text-zinc-500 mb-2">Devices</h2>
+        <p class="text-3xl font-semibold text-indigo-700">{{ num_devices }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow text-center border">
+        <h2 class="text-sm text-zinc-500 mb-2">Awaiting Services</h2>
+        <p class="text-3xl font-semibold text-yellow-600">{{ awaiting_services }}</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow text-center border">
+        <h2 class="text-sm text-zinc-500 mb-2">Finished Services</h2>
+        <p class="text-3xl font-semibold text-green-600">{{ finished_services }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

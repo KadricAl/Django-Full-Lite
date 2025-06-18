@@ -1,0 +1,43 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
+from .forms import MarkCompletedForm
+from services.models import Service
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def mark_completed(request, pk):
+    service = get_object_or_404(Service, pk=pk)
+
+    if request.method == 'POST':
+        form = MarkCompletedForm(request.POST, instance=service)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.status = 'finished'
+            service.end_date = timezone.now().date()
+            service.save()
+            messages.success(request, f"Service #{service.id} for {service.device} marked as COMPLETED.")
+            return redirect('technician_all_requests')
+    else:
+        form = MarkCompletedForm(instance=service)
+
+    return render(request, 'services/mark_completed.html', {
+        'form': form,
+        'service': service
+    })
+    
+@login_required   
+def mark_uncompleted(request, pk):
+    service = get_object_or_404(Service, pk=pk)
+
+    # Optional: only allow reverting finished services
+    if service.status == 'finished':
+        service.status = 'pending'
+        service.end_date = None  # Optional: clear end_date
+        service.save()
+        messages.success(request, f"Service #{service.id} for {service.device} marked as pending.")
+    else:
+        messages.warning(request, "Only finished services can be marked as uncompleted.")
+
+    return redirect('technician_all_services')
