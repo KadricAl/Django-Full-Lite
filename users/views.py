@@ -45,4 +45,28 @@ def technician_all_services(request):
     return render(request, 'users/tech_all_services.html', {'all_services': all_services} )
 
 
+@login_required
+def client_dashboard(request):
+    user = request.user
+    
+    my_devices = Device.objects.filter(user=user).count()
+    awaiting_services = Service.objects.filter(user=user, status='pending').count()
+    finished_services = Service.objects.filter(user=user, status='finished').count()
+    
+    
+    context = {
+        'my_devices': my_devices,
+        'awaiting_services': awaiting_services,
+        'finished_services': finished_services,
+    }
+
+    return render(request, 'users/client_dashboard.html', context)
         
+        
+@login_required
+def client_my_devices(request):
+    user = request.user
+    
+    devices = Device.objects.filter(user=user).order_by('-installation_date')
+    
+    return render(request, 'users/client_my_devices.html', {'devices': devices} )

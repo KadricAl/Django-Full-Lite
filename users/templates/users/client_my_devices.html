@@ -1,0 +1,51 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex">
+    {% include 'users/client_sidebar.html' %}
+
+    <div class="flex-1 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold">My Devices</h1>
+            <a href="{% url 'add_device' %}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                Add New
+            </a>
+        </div>
+
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-zinc-200 rounded shadow text-sm">
+                <thead class="bg-indigo-600 text-white">
+                    <tr>
+                        <th class="py-2 px-4 text-left">Serial</th>
+                        <th class="py-2 px-4 text-left">Type</th>
+                        <th class="py-2 px-4 text-left">Status</th>
+                        <th class="py-2 px-4 text-left">Installed</th>
+                        <th class="py-2 px-4 text-left">Warranty</th>
+                        <th class="py-2 px-4 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for device in devices %}
+                    <tr class="border-b hover:bg-indigo-50">
+                        <td class="py-2 px-4">{{ device.serial_number }}</td>
+                        <td class="py-2 px-4">{{ device.device_type }}</td>
+                        <td class="py-2 px-4">{{ device.status }}</td>
+                        <td class="py-2 px-4">{{ device.installation_date }}</td>
+                        <td class="py-2 px-4">{{ device.warranty_expiry }}</td>
+                        <td class="py-2 px-4 space-x-2">
+                            <a href="{% url 'client_request_service' device.id %}" class="text-blue-600 hover:underline">Need Service</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="py-4 px-4 text-center text-zinc-500">No devices found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

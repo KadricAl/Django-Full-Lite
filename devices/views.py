@@ -10,9 +10,7 @@ def add_device(request):
     if request.method == 'POST':
         form = DeviceForm(request.POST)
         if form.is_valid():
-            device = form.save(commit=False)
-            device.user = request.user
-            device.save()
+            device = form.save()
             messages.success(request, 'Device added succesfuly.')
             return redirect('technician_all_devices')
     else:

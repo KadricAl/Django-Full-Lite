@@ -18,12 +18,12 @@ def login_view(request):
 
     if request.method == 'POST':
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            role = request.POST.get('role')
+            username = form.cleaned_data['username'].strip()
+            password = form.cleaned_data['password'].strip()
+            role = request.POST.get('role').strip()
 
             user = authenticate(request, username=username, password=password)
-
+            print(username, role, password)
             if user is not None and user.role == role:
                 login(request, user)
                 if role == 'technician':
@@ -33,6 +33,7 @@ def login_view(request):
                     messages.success(request, "Succesfuly logged in. " + user.username )
                     return redirect('client_dashboard')
             else:
+                print(user)
                 messages.error(request, "Invalid credentials or role mismatch.")
 
     return render(request, 'home/login.html', {'form': form})

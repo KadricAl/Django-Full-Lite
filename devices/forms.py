@@ -21,4 +21,4 @@ class DeviceForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['user'].queryset = CustomUser.objects.filter(role='technician')   
+        self.fields['user'].queryset = CustomUser.objects.filter(role='client')   

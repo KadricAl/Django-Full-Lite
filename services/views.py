@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from .forms import MarkCompletedForm
+from .forms import MarkCompletedForm, RequestServiceForm
 from services.models import Service
+from devices.models import Device
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -41,3 +42,28 @@ def mark_uncompleted(request, pk):
         messages.warning(request, "Only finished services can be marked as uncompleted.")
 
     return redirect('technician_all_services')
+
+
+@login_required
+def request_service(request, device_id):
+    device = get_object_or_404(Device, id=device_id, user=request.user)
+
+    if request.method == 'POST':
+        form = RequestServiceForm(request.POST)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.device = device
+            service.user = request.user
+            service.request_date = timezone.now()
+            service.status = 'requested'
+            service.service_type = 'R'
+            service.save()
+            messages.success(request, 'Service request submitted successfully.')
+            return redirect('client_my_devices')
+    else:
+        form = RequestServiceForm()
+
+    return render(request, 'services/client_request_service.html', {
+        'form': form,
+        'device': device,
+    })

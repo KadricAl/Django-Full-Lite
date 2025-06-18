@@ -5,15 +5,15 @@
   </div>
   <nav class="flex-1 px-4 py-6 space-y-2">
     <a href="{% url 'client_dashboard' %}" class="block px-3 py-2 rounded hover:bg-indigo-700">Dashboard</a>
-    <a href="{% url 'client_devices' %}" class="block px-3 py-2 rounded hover:bg-indigo-700">My Devices</a>
-    <a href="{% url 'client_services' %}" class="block px-3 py-2 rounded hover:bg-indigo-700">My Services</a>
-    <a href="{% url 'request_service' %}" class="block px-3 py-2 rounded hover:bg-indigo-700">Request Service</a>
+    <a href="{% url 'client_my_devices' %}" class="block px-3 py-2 rounded hover:bg-indigo-700">My Devices</a>
+    <a href="#" class="block px-3 py-2 rounded hover:bg-indigo-700">Service History</a>
+    <a href="#" class="block px-3 py-2 rounded hover:bg-indigo-700">Awaiting Services</a>
   </nav>
   <div class="p-4 border-t border-indigo-700">
     <form method="POST" action="{% url 'logout' %}">
     {% csrf_token %}
-        <button type="submit" class="text-left w-full px-4 py-2 text-zinc-700 hover:bg-indigo-100">
-        Logout
+        <button type="submit" class="text-left w-full px-4 py-2 text-zinc-100 hover:bg-indigo-100 hover:text-zinc-900">
+          Logout
         </button>
     </form>
   </div>
