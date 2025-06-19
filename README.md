@@ -35,17 +35,17 @@ A full-stack **Python Django** application styled with **Tailwind CSS**, built t
 
 ## 📁 Project Structure
 
-pos_service/
-├── devices/ # Device models, views, and forms
-├── services/ # Service tracking logic
-├── users/ # Custom user model and authentication
-├── home/ # Base templates and homepage
-├── static/ # CSS, JS, images
-├── templates/
-│ ├── home/
-│ ├── devices/
-│ ├── services/
-│ └── users/
-├── db.sqlite3
-├── manage.py
-└── README.md
+- pos_service/
+- ├── devices/ # Device models, views, and forms
+- ├── services/ # Service tracking logic
+- ├── users/ # Custom user model and authentication
+- ├── home/ # Base templates and homepage
+- ├── static/ # CSS, JS, images
+- ├── templates/
+- │ ├── home/
+- │ ├── devices/
+- │ ├── services/
+- │ └── users/
+- ├── db.sqlite3
+- ├── manage.py
+- └── README.md
