@@ -1,0 +1,49 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex">
+    {% include 'users/client_sidebar.html' %}
+
+    <div class="flex-1 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold">Service history from - {{ request.user.username }}</h1>
+            
+        </div>
+
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-zinc-200 rounded shadow text-sm">
+                <thead class="bg-indigo-600 text-white">
+                    <tr>
+                        <th class="py-2 px-4 text-left">Serial</th>
+                        <th class="py-2 px-4 text-left">Request Date</th>
+                        <th class="py-2 px-4 text-left">Finish Date</th>
+                        <th class="py-2 px-4 text-left">Status</th>
+                        <th class="py-2 px-4 text-left">Description</th>
+                        <th class="py-2 px-4 text-left">Price</th>
+                
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in all_services %}
+                    <tr class="border-b hover:bg-indigo-50">
+                        <td class="py-2 px-4">{{ service.device.serial_number }}</td>
+                        <td class="py-2 px-4">{{ service.request_date }}</td>
+                        <td class="py-2 px-4">{{ service.end_date }}</td>
+                        <td class="py-2 px-4">{{ service.status }}</td>
+                        <td class="py-2 px-4">{{ service.tech_desc }}</td>
+                        <td class="py-2 px-4">{{ service.price }}</td>
+                        
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="py-4 px-4 text-center text-zinc-500">No Services found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

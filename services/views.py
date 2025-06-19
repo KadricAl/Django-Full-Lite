@@ -67,3 +67,17 @@ def request_service(request, device_id):
         'form': form,
         'device': device,
     })
+    
+
+@login_required
+def cancel_service_request(request, service_id):
+    service = get_object_or_404(Service, id=service_id, user=request.user)
+
+    if service.status in ['requested', 'pending']:
+        service.status = 'canceled'
+        service.save()
+        messages.success(request, 'Your service request has been canceled.')
+    else:
+        messages.error(request, 'Only requested or pending services can be canceled.')
+
+    return redirect('client_requests')

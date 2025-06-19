@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from users.models import CustomUser
 from services.models import Service
 from devices.models import Device
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 @login_required
@@ -34,6 +35,11 @@ def technician_all_devices(request):
 
 @login_required
 def technician_all_requests(request):
+    
+    if request.user.role != 'technician':
+        messages.error(request, "Access denied: technician only.")
+        return redirect('client_dashboard')
+    
     awaiting_services = Service.objects.filter(status__in=['pending', 'requested']).order_by('-request_date')
     
     return render(request, 'users/tech_all_requests.html', {'awaiting_services': awaiting_services} )
@@ -70,3 +76,21 @@ def client_my_devices(request):
     devices = Device.objects.filter(user=user).order_by('-installation_date')
     
     return render(request, 'users/client_my_devices.html', {'devices': devices} )
+
+
+@login_required
+def client_requests(request):
+    user = request.user
+    
+    awaiting_services = Service.objects.filter(user=user, status__in=['pending', 'requested']).order_by('-request_date')
+    
+    return render(request, 'users/client_requests.html', {'awaiting_services': awaiting_services} )
+
+
+@login_required
+def client_all_services(request):
+    user = request.user
+    
+    all_services = Service.objects.filter(user=user, status='finished').order_by('-end_date')
+    
+    return render(request, 'users/client_all_services.html', {'all_services': all_services} )
